@@ -35,6 +35,6 @@ All icons are stored in `/data/custom-icons/`.
 SSH into your Venus device (Cerbo GX, Raspberry Pi Venus, etc.):
 
 ```bash
-wget https://your-repo-url/venus_custom_sensors_v3.sh -O /data/venus_custom_sensors_v3.sh
-chmod +x /data/venus_custom_sensors_v3.sh
-/data/venus_custom_sensors_v3.sh
+wget https://your-repo-url/venus_custom_sensors_v3.sh -O /data/custom_gui_patch.sh
+chmod +x /data/custom_gui_patch.sh
+/data/custom_gui_patch.sh
