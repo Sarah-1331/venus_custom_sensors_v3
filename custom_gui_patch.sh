@@ -26,19 +26,19 @@ Row {\n\
     Row {\n\
         spacing: 4\n\
         Image { source: \"file:///data/custom-icons/temp.svg\"; width: 20; height: 20; fillMode: Image.PreserveAspectFit }\n\
-        Label { text: internalTemp.valid ? internalTemp.value.toFixed(1) + \"°C\" : \"--.-°C\"; color: \"white\"; font.bold: true; font.pixelSize: 18 }\n\
+        Label { text: internalTemp.valid ? internalTemp.value.toFixed(1) + \"°C\" : \"--.-°C\"; font.bold: true; font.pixelSize: 18 }\n\
     }\n\
 \n\
     Row {\n\
         spacing: 4\n\
         Image { source: \"file:///data/custom-icons/external.svg\"; width: 20; height: 20; fillMode: Image.PreserveAspectFit }\n\
-        Label { text: externalTemp.valid ? externalTemp.value.toFixed(1) + \"°C\" : \"--.-°C\"; color: \"white\"; font.bold: true; font.pixelSize: 18 }\n\
+        Label { text: externalTemp.valid ? externalTemp.value.toFixed(1) + \"°C\" : \"--.-°C\"; font.bold: true; font.pixelSize: 18 }\n\
     }\n\
 \n\
     Row {\n\
         spacing: 4\n\
         Image { source: \"file:///data/custom-icons/snowflake.svg\"; width: 20; height: 20; fillMode: Image.PreserveAspectFit }\n\
-        Label { text: fridgeTemp.valid ? fridgeTemp.value.toFixed(1) + \"°C\" : \"--.-°C\"; color: \"white\"; font.bold: true; font.pixelSize: 18 }\n\
+        Label { text: fridgeTemp.valid ? fridgeTemp.value.toFixed(1) + \"°C\" : \"--.-°C\"; font.bold: true; font.pixelSize: 18 }\n\
     }\n\
 }\n\
 \n\
@@ -55,7 +55,7 @@ Row {\n\
         Image { source: \"file:///data/custom-icons/water.svg\"; width: 20; height: 20; fillMode: Image.PreserveAspectFit }\n\
         Label {\n\
             text: waterLevel.valid ? (waterCapacity.valid ? ((waterLevel.value / 100.0) * waterCapacity.value * 1000).toFixed(0) + \"L\" : (waterLevel.value.toFixed(0) + \"%\")) : \"--\"\n\
-            color: \"white\"; font.bold: true; font.pixelSize: 18\n\
+            font.bold: true; font.pixelSize: 18\n\
         }\n\
     }\n\
 }\n\
@@ -121,3 +121,4 @@ chmod 644 /data/custom-icons/*.svg
 svc -t /service/start-gui
 
 echo "=== Custom GUI patch applied successfully ==="
+
