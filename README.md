@@ -13,8 +13,6 @@ A lightweight enhancement for **Victron Venus OS GUI** that adds live environmen
   - ❄️ Fridge temperature (`snowflake.svg`)
   - 💧 Water tank level (`water.svg`)
 - Automatic backup of the original `statusbar.qml`
-- Safe re-installation (no duplicate injection)
-- `--remove` option restores backup and removes icons
 - One-command install / uninstall
 - GUI auto-restart after changes
 
@@ -35,6 +33,6 @@ All icons are stored in `/data/custom-icons/`.
 SSH into your Venus device (Cerbo GX, Raspberry Pi Venus, etc.):
 
 ```bash
-wget https://github.com/Sarah-1331/venus_custom_sensors_v3.sh -O /data/custom_gui_patch.sh
+wget https://raw.githubusercontent.com/Sarah-1331/venus_custom_sensors_v3/main/venus_custom_sensors_v3.sh -O /data/custom_gui_patch.sh
 chmod +x /data/custom_gui_patch.sh
 /data/custom_gui_patch.sh
