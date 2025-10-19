@@ -31,6 +31,12 @@ Row {
 
 
 // === Custom Live Sensor Row with Icons (Final) ===
+
+
+
+
+
+
 Row {
     id: liveSensorRow
     spacing: 16
@@ -44,18 +50,24 @@ Row {
     VeQuickItem { id: externalTemp; uid: "dbus/com.victronenergy.temperature.adc_builtin_temp_2/Temperature" }
     VeQuickItem { id: fridgeTemp;   uid: "dbus/com.victronenergy.temperature.adc_builtin_temp_1/Temperature" }
     VeQuickItem { id: waterLevel;   uid: "dbus/com.victronenergy.tank.adc_gxtank_HQ2233VFF4U_0/Level" }
+    VeQuickItem { id: waterCapacity; uid: "dbus/com.victronenergy.tank.adc_gxtank_HQ2233VFF4U_0/Capacity" }
+    VeQuickItem { id: themeMode;     uid: "dbus/com.victronenergy.settings/Settings/Gui/ColorScheme" }
+
 
     // — Internal Temp —
     Row {
         spacing: 4
         Image {
-            source: "file:///data/custom-icons/temp.svg"
             width: 20; height: 20
             fillMode: Image.PreserveAspectFit
+            source: themeMode.value === 1
+        ? "file:///data/custom-icons/tempB.svg"
+        : "file:///data/custom-icons/temp.svg"
+ 	  
         }
         Label {
             text: internalTemp.valid ? internalTemp.value.toFixed(1) + "°C" : "--.-°C"
-            color: "white"; font.bold: true; font.pixelSize: 18
+            font.bold: true; font.pixelSize: 18
         }
     }
 
@@ -63,13 +75,15 @@ Row {
     Row {
         spacing: 4
         Image {
-            source: "file:///data/custom-icons/external.svg"
             width: 20; height: 20
             fillMode: Image.PreserveAspectFit
+            source: themeMode.value === 1
+        ? "file:///data/custom-icons/externalB.svg"
+        : "file:///data/custom-icons/external.svg"
         }
         Label {
             text: externalTemp.valid ? externalTemp.value.toFixed(1) + "°C" : "--.-°C"
-            color: "white"; font.bold: true; font.pixelSize: 18
+           font.bold: true; font.pixelSize: 18
         }
     }
 
@@ -77,15 +91,18 @@ Row {
     Row {
         spacing: 4
         Image {
-            source: "file:///data/custom-icons/snowflake.svg"
             width: 20; height: 20
             fillMode: Image.PreserveAspectFit
+            source: themeMode.value === 1
+        ? "file:///data/custom-icons/snowflakeB.svg"
+        : "file:///data/custom-icons/snowflake.svg"
         }
-        Label {
-            text: fridgeTemp.valid ? fridgeTemp.value.toFixed(1) + "°C" : "--.-°C"
-            color: "white"; font.bold: true; font.pixelSize: 18
-        }
-    }
+       Label {
+    text: fridgeTemp.valid ? fridgeTemp.value.toFixed(1) + "°C" : "--.-°C"
+            font.bold: true; font.pixelSize: 18
+
+}
+}
 }
 
 
@@ -99,24 +116,39 @@ Row {
 
    
 
-    // — Water Tank Level —
-    Row {
-        spacing: 4
-        Image {
-            source: "file:///data/custom-icons/water.svg"
-            width: 20; height: 20
-            fillMode: Image.PreserveAspectFit
-        }
-        Label {
-            text: waterLevel.valid ? (waterLevel.value * 234).toFixed(0) + "L" : "--L"
-            color: "white"; font.bold: true; font.pixelSize: 18
-        	
-		}
-	}
+// — Water Tank Level —
+
+
+
+Row {
+    spacing: 4
+    Image {
+        width: 20; height: 20
+        fillMode: Image.PreserveAspectFit
+            source: themeMode.value === 1
+        ? "file:///data/custom-icons/waterB.svg"
+        : "file:///data/custom-icons/water.svg"
+    }
+
+    Label {
+        text: waterLevel.valid
+              ? (waterCapacity.valid
+                 ? ((waterLevel.value / 100.0) * waterCapacity.value * 1000).toFixed(0) + "L"
+                 : (waterLevel.value.toFixed(0) + "%"))
+              : "--"
+       
+        font.bold: true
+        font.pixelSize: 18
+    }
 }
 
 
+}
+
+
+
 // === End Custom Live Sensor Row ===
+
 
 
 
@@ -177,4 +209,5 @@ EOF
 -------------------------
 ##restart gui
 svc -t /service/start-gui
+
 
