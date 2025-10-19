@@ -12,7 +12,7 @@ CUSTOM_ROW="/data/custom_live_sensor_row.qml"
 # 1️⃣ Backup original QML
 echo "Backing up original statusbar.qml..."
 if [ -f "$STATUSBAR_QML" ]; then
-    cp "$STATUSBAR_QML" "${STATUSBAR_QML}.bak"
+    ccp "$STATUSBAR_QML" "${STATUSBAR_QML}.bak.$(date +%Y%m%d%H%M%S)"
 else
     echo "Error: $STATUSBAR_QML does not exist!"
     exit 1
