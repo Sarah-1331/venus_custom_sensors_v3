@@ -27,7 +27,7 @@ Row {
     spacing: 16
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: clockLabel.left
-    anchors.rightMargin: 20
+    anchors.rightMargin: 10
     visible: !breadcrumbs.visible
 
     // — D-Bus Bindings —
