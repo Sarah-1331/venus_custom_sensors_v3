@@ -27,8 +27,18 @@ Row {
     spacing: 16
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: clockLabel.left
-    anchors.rightMargin: 10
-    visible: !breadcrumbs.visible
+    anchors.rightMargin: 20
+// Always participate in layout, but fade in/out
+    visible: true
+    opacity: !breadcrumbs.visible ? 1 : 0
+
+    Behavior on opacity {
+        enabled: root.animationEnabled
+        OpacityAnimator {
+            duration: Theme.animation_page_idleOpacity_duration
+        }
+    }
+
 
     // — D-Bus Bindings —
     VeQuickItem { id: internalTemp; uid: "dbus/com.victronenergy.temperature.adc_builtin_temp_3/Temperature" }
@@ -89,11 +99,24 @@ Row {
 
 Row {
     id: water
-    spacing: 16
+    spacing: 4
     anchors.verticalCenter: parent.verticalCenter
-    anchors.left: connectivityRow.right
+anchors.left: alarmButton.visible && alarmButton.enabled
+                    ? alarmButton.right
+                  : notificationButton.visible
+                    ? notificationButton.right
+                  : connectivityRow.right
     anchors.leftMargin: 20
-    visible: !breadcrumbs.visible
+// Always in layout, but fade based on breadcrumbs
+    visible: true
+    opacity: !breadcrumbs.visible ? 1 : 0
+
+    Behavior on opacity {
+        enabled: root.animationEnabled
+        OpacityAnimator {
+            duration: Theme.animation_page_idleOpacity_duration
+        }
+    }
 
     // — Water Tank Level —
     Row {
@@ -116,6 +139,7 @@ Row {
         }
     }
 }
+
 
 // === End Custom Live Sensor Row ===
 EOF
