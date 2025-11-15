@@ -101,12 +101,15 @@ Row {
     id: water
     spacing: 4
     anchors.verticalCenter: parent.verticalCenter
-anchors.left: alarmButton.visible && alarmButton.enabled
+    anchors.left: alarmButton.visible && alarmButton.enabled
                     ? alarmButton.right
                   : notificationButton.visible
                     ? notificationButton.right
                   : connectivityRow.right
     anchors.leftMargin: 20
+    
+    
+    
 // Always in layout, but fade based on breadcrumbs
     visible: true
     opacity: !breadcrumbs.visible ? 1 : 0
