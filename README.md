@@ -1,6 +1,5 @@
 # 🌡️ Venus OS Custom Sensors — Installer v3
 
-found an issue with dbus serial battery /data/apps/overlay-fs/data/gui-v2/merged/Victron/VenusOS/components/StatusBar.qml is the file to edit if installed will add this logic next
 
 A lightweight enhancement for **Victron Venus OS GUI** that adds live environmental readings to the **top status bar** — including **internal temperature**, **external temperature**, **fridge temperature**, and **water tank level** with custom white SVG icons.
 
@@ -35,6 +34,5 @@ All icons are stored in `/data/custom-icons/`.
 SSH into your Venus device (Cerbo GX, Raspberry Pi Venus, etc.):
 
 ```bash
-wget https://raw.githubusercontent.com/Sarah-1331/venus_custom_sensors_v3/main/custom_gui_patch.sh -O /data/custom_gui_patch.sh
-
+wget https://raw.githubusercontent.com/Sarah-1331/venus_custom_sensors_v3/main/custom_gui_patch.sh -O /data/custom_gui_patchv2.sh
 bash /data/custom_gui_patch.sh
