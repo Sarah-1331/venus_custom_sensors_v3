@@ -1,6 +1,6 @@
 # 🌡️ Venus OS Custom Sensors — Installer v3
 
-found an issue with dbus serial battery /data/apps/overlay-fs/data/gui-v2/merged/Victron/VenusOS/components/StatusBar.qml is the file to edit if installed 
+found an issue with dbus serial battery /data/apps/overlay-fs/data/gui-v2/merged/Victron/VenusOS/components/StatusBar.qml is the file to edit if installed will add this logic next
 
 A lightweight enhancement for **Victron Venus OS GUI** that adds live environmental readings to the **top status bar** — including **internal temperature**, **external temperature**, **fridge temperature**, and **water tank level** with custom white SVG icons.
 
