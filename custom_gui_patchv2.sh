@@ -1,18 +1,68 @@
 #!/bin/sh
 # =================================================================
-# Venus OS Custom Live Sensor Installer
+# Venus OS Custom Live Sensor Installer (overlay-aware)
 # Hard-coded paths, Unix line endings, safe commands
 # =================================================================
 
-# Paths
-STATUSBAR_QML="/opt/victronenergy/gui-v2/Victron/VenusOS/components/StatusBar.qml"
+# ---------- Paths ----------
+ORIG_STATUSBAR="/opt/victronenergy/gui-v2/Victron/VenusOS/components/StatusBar.qml"
+
+OVERLAY_BASE="/data/apps/overlay-fs"
+UPPER_STATUSBAR="$OVERLAY_BASE/data/opt/victronenergy/gui-v2/upper/Victron/VenusOS/components/StatusBar.qml"
+
+# Default target: original file
+STATUSBAR_QML="$ORIG_STATUSBAR"
+
 ICON_DIR="/data/custom-icons"
 CUSTOM_ROW="/data/custom_live_sensor_row.qml"
 
-# 1️⃣ Backup original QML
-echo "Backing up original statusbar.qml..."
+echo "============================================================"
+echo " Venus OS Custom Live Sensor Installer (overlay-aware)"
+echo "============================================================"
+echo
+
+# ---------- Detect overlay-fs and choose target StatusBar.qml ----------
+
+if [ -d "$OVERLAY_BASE" ]; then
+    echo "[=] overlay-fs appears to be installed at: $OVERLAY_BASE"
+
+    # Ensure directory for upper StatusBar exists
+    mkdir -p "$(dirname "$UPPER_STATUSBAR")"
+
+    if [ -f "$UPPER_STATUSBAR" ]; then
+        echo "[=] StatusBar.qml already present in overlay upper:"
+        echo "    $UPPER_STATUSBAR"
+    else
+        echo "[+] StatusBar.qml not yet in overlay upper."
+
+        if [ -f "$ORIG_STATUSBAR" ]; then
+            echo "    Copying original StatusBar.qml to overlay upper..."
+            cp "$ORIG_STATUSBAR" "$UPPER_STATUSBAR"
+            echo "    Done."
+        else
+            echo "[!] WARNING: original StatusBar.qml not found at:"
+            echo "    $ORIG_STATUSBAR"
+            echo "    Will continue, but patching may fail."
+        fi
+    fi
+
+    # Use overlay upper as the file we will modify
+    STATUSBAR_QML="$UPPER_STATUSBAR"
+    echo "[*] Using OVERLAY file as patch target:"
+    echo "    $STATUSBAR_QML"
+else
+    echo "[=] overlay-fs not detected; will patch ORIGINAL file:"
+    echo "    $STATUSBAR_QML"
+fi
+
+echo
+
+# 1️⃣ Backup target QML (either overlay upper or original)
+echo "Backing up StatusBar.qml..."
 if [ -f "$STATUSBAR_QML" ]; then
-    cp "$STATUSBAR_QML" "${STATUSBAR_QML}.bak.$(date +%Y%m%d%H%M%S)"
+    BACKUP_PATH="${STATUSBAR_QML}.bak.$(date +%Y%m%d%H%M%S)"
+    cp "$STATUSBAR_QML" "$BACKUP_PATH"
+    echo "Backup created at: $BACKUP_PATH"
 else
     echo "Error: $STATUSBAR_QML does not exist!"
     exit 1
@@ -107,9 +157,9 @@ Row {
                     ? notificationButton.right
                   : connectivityRow.right
     anchors.leftMargin: 20
-    
-    
-    
+
+
+
 // Always in layout, but fade based on breadcrumbs
     visible: true
     opacity: !breadcrumbs.visible ? 1 : 0
@@ -194,4 +244,7 @@ write_svg waterB.svg '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24
 echo "Restarting GUI..."
 svc -t /service/start-gui
 
-echo "Installation complete! Original backup at ${STATUSBAR_QML}.bak"
+echo
+echo "Installation complete!"
+echo "Patched file: $STATUSBAR_QML"
+echo "Backup created at: $BACKUP_PATH"
