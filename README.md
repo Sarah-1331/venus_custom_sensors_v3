@@ -36,6 +36,5 @@ SSH into your Venus device (Cerbo GX, Raspberry Pi Venus, etc.):
 
 ```bash
 wget https://raw.githubusercontent.com/Sarah-1331/venus_custom_sensors_v3/main/custom_gui_patch.sh -O /data/custom_gui_patch.sh
-sed -i 's/\r$//' /data/custom_gui_patch.sh
-chmod +x /data/custom_gui_patch.sh
+
 bash /data/custom_gui_patch.sh
