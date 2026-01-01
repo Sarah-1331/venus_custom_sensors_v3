@@ -1,38 +1,52 @@
 # 🌡️ Venus OS Custom Sensors — Installer v3
 
+A lightweight enhancement for the Victron Venus OS GUI that adds **live environmental readings** to the top status bar, including:
 
-A lightweight enhancement for **Victron Venus OS GUI** that adds live environmental readings to the **top status bar** — including **internal temperature**, **external temperature**, **fridge temperature**, and **water tank level** with custom white SVG icons.
+- Internal temperature
+- External temperature
+- Fridge temperature
+- Water tank level
+
+All readings use **custom white and black SVG icons** stored in `/data/custom-icons/` for a clean, consistent look.
 
 ---
 
 ## ✨ Features
 
-- Displays live sensor data directly in the Venus OS status bar
-- Clean white icons for consistent visual style:
-  - 🌡️ Internal temperature (`temp.svg`)
-  - 🌬️ External temperature (`external.svg`)
-  - ❄️ Fridge temperature (`snowflake.svg`)
-  - 💧 Water tank level (`water.svg`)
-- Automatic backup of the original `statusbar.qml`
-- One-command install / uninstall
-- GUI auto-restart after changes
+- Displays live sensor data in the Venus OS status bar  
+- White & black icons for theme support:  
+  🌡️ `temp.svg` / `tempB.svg` — Internal temperature  
+  🌬️ `external.svg` / `externalB.svg` — External temperature  
+  ❄️ `snowflake.svg` / `snowflakeB.svg` — Fridge temperature  
+  💧 `water.svg` / `waterB.svg` — Water tank level  
+- Automatic backup of `StatusBar.qml`  
+- One-command install / uninstall  
+- GUI auto-restart after changes  
+- Uses overlay-fs to **never modify the original system file**  
 
 ---
 
 ## 🧠 How It Works
 
-This installer injects a small **custom QML block** into  
-`/opt/victronenergy/gui-v2/Victron/VenusOS/components/statusbar.qml`,  
-just before the right-hand control row, to show live D-Bus sensor data.
+The installer:
 
-All icons are stored in `/data/custom-icons/`.
+1. Checks for `overlay-fs` and installs it if missing  
+2. Creates an overlay for `/opt/victronenergy/gui-v2/Victron/VenusOS/components`  
+3. Copies the original `StatusBar.qml` into the overlay (upper layer)  
+4. Injects a small QML block **before the right-hand control row** to show live D-Bus sensor data  
+5. Installs all SVG icons in `/data/custom-icons/`  
+6. Restarts the GUI automatically  
+
+This ensures the **original system files remain untouched** and your modifications are safe and reversible.
 
 ---
 
 ## ⚙️ Installation
 
-SSH into your Venus device (Cerbo GX, Raspberry Pi Venus, etc.):
+SSH into your Venus OS device (Cerbo GX, Raspberry Pi Venus, etc.) and run:
 
 ```bash
-wget https://raw.githubusercontent.com/Sarah-1331/venus_custom_sensors_v3/main/custom_gui_patch.sh -O /data/custom_gui_patch.sh
+# Download and run the installer
+wget -q https://raw.githubusercontent.com/Sarah-1331/guimods/main/install_statusbar_overlay.sh -O /data/custom_gui_patch.sh
+chmod +x /data/custom_gui_patch.sh
 bash /data/custom_gui_patch.sh
