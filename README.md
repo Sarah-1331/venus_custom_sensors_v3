@@ -47,9 +47,11 @@ SSH into your Venus OS device (Cerbo GX, Raspberry Pi Venus, etc.) and run:
 
 ```bash
 # Download and run the installer
-wget -q https://raw.githubusercontent.com/Sarah-1331/guimods/main/install_statusbar_overlay.sh -O /data/custom_gui_patch.sh
+wget -O /data/custom_gui_patch.sh "https://raw.githubusercontent.com/Sarah-1331/venus_custom_sensors_v3/main/install_statusbar_overlay.sh"
 chmod +x /data/custom_gui_patch.sh
+cat /data/custom_gui_patch.sh   # optional: verify contents
 bash /data/custom_gui_patch.sh
+
 
 🗑️ Uninstall / Reset
 
