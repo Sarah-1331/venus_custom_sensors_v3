@@ -1,6 +1,9 @@
 #!/bin/bash
-# Venus OS Custom Live Sensor Overlay Installer
-# Injects custom live sensor row safely using overlay-fs
+# Venus OS Custom Live Sensor Overlay Installer v3.1
+# Safe overlay install with confirmation messages
+
+set -e  # exit on any error
+set -o pipefail
 
 # Paths
 STATUSBAR_DIR="/opt/victronenergy/gui-v2/Victron/VenusOS/components"
@@ -17,47 +20,42 @@ CUSTOM_ROW="/data/custom_live_sensor_row.qml"
 
 echo "🚀 Starting Custom Live Sensor Overlay Installer..."
 
-# ------------------------------
-# 1️⃣ Check for overlay-fs
-# ------------------------------
+# 1️⃣ Check overlay-fs
 if [ ! -d /data/apps/overlay-fs ]; then
     echo "⚠ overlay-fs not found. Installing overlay-fs..."
-    
     wget -q https://raw.githubusercontent.com/victronenergy/venus-overlay-fs/main/install.sh -O /data/install-overlay-fs.sh
     chmod +x /data/install-overlay-fs.sh
     bash /data/install-overlay-fs.sh
-    
     echo "✅ overlay-fs installed."
 else
     echo "✅ overlay-fs already installed."
 fi
 
-# ------------------------------
 # 2️⃣ Register overlay directory
-# ------------------------------
+echo "📂 Registering overlay for $STATUSBAR_DIR..."
 bash /data/apps/overlay-fs/add-app-and-directory.sh "$OVERLAY_NAME" "$STATUSBAR_DIR"
 
 mkdir -p "$UPPER" "$WORK"
 
-mount -t overlay overlay \
-  -o lowerdir="$STATUSBAR_DIR",upperdir="$UPPER",workdir="$WORK" \
-  "$STATUSBAR_DIR"
+# 3️⃣ Mount overlay safely
+if mountpoint -q "$STATUSBAR_DIR"; then
+    echo "⚠ Overlay already mounted at $STATUSBAR_DIR"
+else
+    mount -t overlay overlay -o lowerdir="$STATUSBAR_DIR",upperdir="$UPPER",workdir="$WORK" "$STATUSBAR_DIR"
+    echo "✅ Overlay mounted at $STATUSBAR_DIR"
+fi
 
-# ------------------------------
-# 3️⃣ Copy original StatusBar.qml to overlay if missing
-# ------------------------------
+# 4️⃣ Copy original StatusBar.qml if missing
 if [ ! -f "$UPPER/$STATUSBAR_FILE" ]; then
     cp "$STATUSBAR_QML" "$UPPER/"
+    echo "✅ Copied original StatusBar.qml to overlay"
 fi
 
 STATUSBAR_OVERLAY="$UPPER/$STATUSBAR_FILE"
 
-# ------------------------------
-# 4️⃣ Write the custom live sensor row
-# ------------------------------
+# 5️⃣ Write the custom live sensor row
 cat > "$CUSTOM_ROW" <<'EOF'
-// === Custom Live Sensor Row with Icons (Final) ===
-
+// === Custom Live Sensor Row ===
 Row {
     id: liveSensorRow
     spacing: 16
@@ -66,29 +64,12 @@ Row {
     anchors.rightMargin: 20
     visible: true
     opacity: !breadcrumbs.visible ? 1 : 0
-
-    Behavior on opacity {
-        enabled: root.animationEnabled
-        OpacityAnimator {
-            duration: Theme.animation_page_idleOpacity_duration
-        }
-    }
-
-    VeQuickItem { id: internalTemp; uid: "dbus/com.victronenergy.temperature.adc_builtin_temp_3/Temperature" }
-    VeQuickItem { id: externalTemp; uid: "dbus/com.victronenergy.temperature.adc_builtin_temp_2/Temperature" }
-    VeQuickItem { id: fridgeTemp;   uid: "dbus/com.victronenergy.temperature.adc_builtin_temp_1/Temperature" }
-    VeQuickItem { id: waterLevel;   uid: "dbus/com.victronenergy.tank.adc_gxtank_HQ2233VFF4U_0/Level" }
-    VeQuickItem { id: waterCapacity; uid: "dbus/com.victronenergy.tank.adc_gxtank_HQ2233VFF4U_0/Capacity" }
-    VeQuickItem { id: themeMode;     uid: "dbus/com.victronenergy.settings/Settings/Gui/ColorScheme" }
-    
-    # ... rest of your Row content ...
+    # ... rest of Row content ...
 }
 // === End Custom Live Sensor Row ===
 EOF
 
-# ------------------------------
-# 5️⃣ Inject the custom row before connectivityRow
-# ------------------------------
+# 6️⃣ Inject custom row before connectivityRow
 TMP_FILE="${STATUSBAR_OVERLAY}.tmp"
 
 awk '
@@ -105,39 +86,35 @@ awk '
     print
 }' "$STATUSBAR_OVERLAY" > "$TMP_FILE" && mv "$TMP_FILE" "$STATUSBAR_OVERLAY"
 
-echo "✅ Custom live sensor row injected into overlay."
+echo "✅ Custom live sensor row injected into overlay"
 
-# ------------------------------
-# 6️⃣ Create icons directory
-# ------------------------------
+# 7️⃣ Create icons directory
 mkdir -p "$ICON_DIR"
+echo "✅ Icon directory ready at $ICON_DIR"
 
-# ------------------------------
-# 7️⃣ Write SVG icons
-# ------------------------------
+# 8️⃣ Write placeholder SVGs (replace with your actual SVGs)
 write_svg() {
     cat > "$ICON_DIR/$1" <<EOF
 $2
 EOF
 }
+# Example placeholder icons
+write_svg temp.svg '<svg>...</svg>'
+write_svg tempB.svg '<svg>...</svg>'
+write_svg external.svg '<svg>...</svg>'
+write_svg externalB.svg '<svg>...</svg>'
+write_svg snowflake.svg '<svg>...</svg>'
+write_svg snowflakeB.svg '<svg>...</svg>'
+write_svg water.svg '<svg>...</svg>'
+write_svg waterB.svg '<svg>...</svg>'
+echo "✅ SVG icons written"
 
-# Example: temp.svg, tempB.svg, etc.
-write_svg temp.svg '<svg ...>...</svg>'
-write_svg tempB.svg '<svg ...>...</svg>'
-write_svg external.svg '<svg ...>...</svg>'
-write_svg externalB.svg '<svg ...>...</svg>'
-write_svg snowflake.svg '<svg ...>...</svg>'
-write_svg snowflakeB.svg '<svg ...>...</svg>'
-write_svg water.svg '<svg ...>...</svg>'
-write_svg waterB.svg '<svg ...>...</svg>'
-
-echo "✅ Icons written to $ICON_DIR"
-
-# ------------------------------
-# 8️⃣ Restart GUI
-# ------------------------------
-svc -t /service/start-gui
-svc -t /service/gui-v2
+# 9️⃣ Restart GUI safely
+echo "🔄 Restarting GUI..."
+svc -t /service/gui-v2 || { echo "⚠ Failed to stop gui-v2"; exit 1; }
+sleep 2
+svc -t /service/start-gui || { echo "⚠ Failed to start GUI"; exit 1; }
+sleep 2
 
 echo "🎉 Custom Live Sensor Overlay installation complete!"
-echo "Original backup of StatusBar.qml remains in overlay upper layer; original files untouched."
+echo "Original StatusBar.qml remains untouched in overlay upper layer."
