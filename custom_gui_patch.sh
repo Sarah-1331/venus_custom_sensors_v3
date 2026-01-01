@@ -137,6 +137,7 @@ echo "✅ Icons written to $ICON_DIR"
 # 8️⃣ Restart GUI
 # ------------------------------
 svc -t /service/start-gui
+svc -t /service/gui-v2
 
 echo "🎉 Custom Live Sensor Overlay installation complete!"
 echo "Original backup of StatusBar.qml remains in overlay upper layer; original files untouched."
