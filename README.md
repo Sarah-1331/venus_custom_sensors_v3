@@ -50,3 +50,16 @@ SSH into your Venus OS device (Cerbo GX, Raspberry Pi Venus, etc.) and run:
 wget -q https://raw.githubusercontent.com/Sarah-1331/guimods/main/install_statusbar_overlay.sh -O /data/custom_gui_patch.sh
 chmod +x /data/custom_gui_patch.sh
 bash /data/custom_gui_patch.sh
+
+🗑️ Uninstall / Reset
+
+To remove the custom overlay and revert to the original status bar:
+
+# Stop the GUI
+svc -t /service/gui-v2
+
+# Remove the overlay
+rm -rf /data/apps/overlay-fs/data/statusbar-overlay
+
+# Restart the GUI
+svc -t /service/start-gui
