@@ -1,6 +1,4 @@
-Here’s a clean, well-structured **GitHub `README.md`–ready** version of your text, using proper Markdown, headings, lists, and code blocks for readability and polish:
 
----
 
 # 🌡️ Venus OS Custom Sensors — Installer v3
 
@@ -64,11 +62,5 @@ bash /data/custom_gui_patch.sh
 
 ---
 
-If you want, I can also:
-
-* Add a **Screenshots** section
-* Include **Uninstall instructions**
-* Create a **Version / Changelog** section
-* Optimize it for GitHub SEO (badges, shields, etc.)
 
 Just say the word 👍
