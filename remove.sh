@@ -7,4 +7,7 @@ if [ -n "$BACKUP" ]; then
     echo "✅ StatusBar.qml restored from $BACKUP"
 else
     echo "❌ No StatusBar.qml backup found"
+    svc -t /service/start-gui
+svc -t /service/gui-v2
+
 fi
