@@ -56,3 +56,16 @@ Run the installer:
 
 wget https://raw.githubusercontent.com/Sarah-1331/venus_custom_sensors_v3/main/custom_gui_patch.sh -O /data/custom_gui_patch.sh
 bash /data/custom_gui_patch.sh
+
+
+If you want, I can also:
+
+Add a Screenshots section
+
+Include Uninstall instructions
+
+Create a Version / Changelog section
+
+Optimize it for GitHub SEO (badges, shields, etc.)
+
+Just say the word 👍
