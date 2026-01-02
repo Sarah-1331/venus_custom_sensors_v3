@@ -56,8 +56,8 @@ All SVG icons are stored in:
 2. Run the installer:
 
 ```bash
-wget -O /data/custom_gui_patch.sh "https://raw.githubusercontent.com/Sarah-1331/venus_custom_sensors_v3/main/install_statusbar_overlay.sh"
-bash /data/custom_gui_patch.sh
+wget -O /data/Sensors.sh "https://raw.githubusercontent.com/Sarah-1331/venus_custom_sensors_v3/main/sensors.sh"
+bash /data/sensors.sh
 
 ```
 
@@ -70,7 +70,7 @@ bash /data/custom_gui_patch.sh
 ### 1️⃣ **Use a small temporary script to remove **
 
 ```bash
-wget -O /data/custom_gui_patch.sh "https://raw.githubusercontent.com/Sarah-1331/venus_custom_sensors_v3/main/remove.sh"
+wget -O /data/remove.sh "https://raw.githubusercontent.com/Sarah-1331/venus_custom_sensors_v3/main/remove.sh"
 bash /data/remove.sh
 ```
 ---
