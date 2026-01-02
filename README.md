@@ -63,14 +63,18 @@ bash /data/custom_gui_patch.sh
 
 ---
 
-# Restore the orignals
+# 
+
+## 🔹 Restore the orignals
+
+### 1️⃣ **Use a small temporary script to remove **
 
 ```bash
-STATUSBAR_QML="/opt/victronenergy/gui-v2/Victron/VenusOS/components/statusbar.qml" && \
-cp "$STATUSBAR_QML" "$STATUSBAR_QML.pre-restore-$(date +%Y%m%d-%H%M%S)" && \
-b=$(ls -t "${STATUSBAR_QML}.bak."* 2>/dev/null | head -n1) && \
-[ -n "$b" ] && cp "$b" "$STATUSBAR_QML" && \
-svc -t /service/gui-v2 && svc -t /service/start-gui
+wget -O /data/custom_gui_patch.sh "https://raw.githubusercontent.com/Sarah-1331/venus_custom_sensors_v3/main/remove.sh"
+bash /data/remove.sh
 ```
+---
+
+
 
 Just say the word 👍
