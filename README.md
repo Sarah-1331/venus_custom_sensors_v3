@@ -1,3 +1,5 @@
+headings, lists, and code blocks for readability and polish:
+
 🌡️ Venus OS Custom Sensors — Installer v3
 
 A lightweight enhancement for the Victron Venus OS GUI that adds live environmental readings directly to the top status bar.
