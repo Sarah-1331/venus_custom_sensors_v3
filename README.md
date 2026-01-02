@@ -56,8 +56,9 @@ All SVG icons are stored in:
 2. Run the installer:
 
 ```bash
-wget https://raw.githubusercontent.com/Sarah-1331/venus_custom_sensors_v3/main/custom_gui_patch.sh -O /data/custom_gui_patch.sh
+wget -O /data/custom_gui_patch.sh "https://raw.githubusercontent.com/Sarah-1331/venus_custom_sensors_v3/main/install_statusbar_overlay.sh"
 bash /data/custom_gui_patch.sh
+
 ```
 
 ---
