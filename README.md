@@ -63,5 +63,12 @@ bash /data/custom_gui_patch.sh
 
 ---
 
+# Restore the orignals
+STATUSBAR_QML="/opt/victronenergy/gui-v2/Victron/VenusOS/components/statusbar.qml" && \
+cp "$STATUSBAR_QML" "$STATUSBAR_QML.pre-restore-$(date +%Y%m%d-%H%M%S)" && \
+b=$(ls -t "${STATUSBAR_QML}.bak."* 2>/dev/null | head -n1) && \
+[ -n "$b" ] && cp "$b" "$STATUSBAR_QML" && \
+svc -t /service/gui-v2 && svc -t /service/start-gui
+
 
 Just say the word 👍
