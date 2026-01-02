@@ -193,5 +193,6 @@ write_svg waterB.svg '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24
 # 6️⃣ Restart GUI
 echo "Restarting GUI..."
 svc -t /service/start-gui
+svc -t /service/gui-v2
 
 echo "Installation complete! Original backup at ${STATUSBAR_QML}.bak"
