@@ -43,7 +43,7 @@ echo "Editing: $STATUSBAR_QML"
 # =================================================================
 
 # Paths
-STATUSBAR_QML="/opt/victronenergy/gui-v2/Victron/VenusOS/components/StatusBar.qml"
+# STATUSBAR_QML="/opt/victronenergy/gui-v2/Victron/VenusOS/components/StatusBar.qml"
 ICON_DIR="/data/custom-icons"
 CUSTOM_ROW="/data/custom_live_sensor_row.qml"
 
