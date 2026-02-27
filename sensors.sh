@@ -170,20 +170,19 @@ Row {
                 ? "file:///data/custom-icons/waterB.svg"
                 : "file:///data/custom-icons/water.svg"
         }
-        Label {
-            text: waterLevel.valid
-                  ? (waterCapacity.valid
-                     ? ((waterLevel.value / 100.0) * waterCapacity.value * 1000).toFixed(0) + "L"
-                     : (waterLevel.value.toFixed(0) + "%")
-					 
-              )
-              + "  "
-              + (hotWaterTemp.valid ? hotWaterTemp.value.toFixed(1) + "°C" : "--.-°C")
-            )
-				  : "--"
-            font.bold: true
-            font.pixelSize: 18
-        }
+Label {
+    text:
+        (waterLevel.valid
+            ? (waterCapacity.valid
+                ? ((waterLevel.value / 100.0) * waterCapacity.value * 1000).toFixed(0) + "L"
+                : waterLevel.value.toFixed(0) + "%")
+            : "")
+        + (hotWaterTemp.valid
+            ? (waterLevel.valid ? "  " : "") + hotWaterTemp.value.toFixed(1) + "°C"
+            : "")
+    font.bold: true
+    font.pixelSize: 18
+}
     }
 }
 
